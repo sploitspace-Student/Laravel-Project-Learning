@@ -1,0 +1,8 @@
+@props(['href', 'current' => false])
+
+@php
+    $classes = $current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
+@endphp
+
+<a href="{{ $href }}" {{ $attributes->merge(['class' => 'rounded-md px-3 py-5 font-medium ' . $classes]) }}>
+    {{ $slot }}</a>

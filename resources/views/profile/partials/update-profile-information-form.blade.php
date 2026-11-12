@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -21,6 +21,12 @@
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <div>
+            <x-input-label for="username" :value="__('Username')" />
+            <x-text-input id="username" name="username" type="text" class="mt-1 block w-full" :value="old('username', $user->username)" required autofocus autocomplete="username" />
+            <x-input-error class="mt-2" :messages="$errors->get('username')" />
         </div>
 
         <div>
@@ -33,7 +39,7 @@
                     <p class="text-sm mt-2 text-gray-800">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -45,6 +51,20 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        {{-- avatar --}}
+        <div>
+            <label class="block mb-2.5 text-sm font-medium text-heading" for="avatar">Upload avatar</label>
+            <input class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body" 
+            aria-describedby="avatar_help" name="avatar" id="avatar" type="file">
+            <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="avatar" id="avatar_help">
+                confirm your are logged into your account
+            </div>
+        </div>
+
+        <div>
+            <img class="w-16 h-16 rounded-full" src="{{ $user->avatar ? asset($user->avatar) : asset('img/default-img.jpg') }}" alt="{{ $user->name }}">
         </div>
 
         <div class="flex items-center gap-4">
